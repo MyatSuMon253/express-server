@@ -4,6 +4,8 @@ import compression from "compression";
 import cors from "cors";
 import morgan from "morgan";
 
+import { limiter } from "./middlewares/rate_limiter";
+
 export const app = express();
 
 app
@@ -12,4 +14,9 @@ app
   .use(express.json())
   .use(cors())
   .use(helmet())
-  .use(compression());
+  .use(compression())
+  .use(limiter);
+
+app.get("/health", (_req, res) => {
+  res.status(200).json({ message: "OK" });
+});
