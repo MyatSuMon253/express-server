@@ -5,7 +5,8 @@ import cors from "cors";
 import morgan from "morgan";
 
 import { limiter } from "./middlewares/rate_limiter";
-import { check, CustomRequest } from "./middlewares/check";
+import { CustomRequest } from "./middlewares/check";
+import healthRoute from "./routes/v1/health";
 
 export const app = express();
 
@@ -16,12 +17,8 @@ app
   .use(cors())
   .use(helmet())
   .use(compression())
-  .use(limiter);
-
-app.get("/health", check, (req: CustomRequest, res: Response) => {
-  throw new Error("Test Error Occurred!");
-  res.status(200).json({ message: "OK", userId: req.userId });
-});
+  .use(limiter)
+  .use('/api/v1',healthRoute);
 
 app.use((error: any, req: CustomRequest, res: Response, next: NextFunction) => {
   const status = error.status || 500;
