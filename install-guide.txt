@@ -1,8 +1,15 @@
 1. npm init -y
 2. npm i typescript ts-node @types/node nodemon --save-dev 
 3. npx tsc --init
+
 4. npm i jest @types/jest ts-jest supertest @types/supertest jest-environment-node jest-config --save-dev 
 5. npm i express dotenv cors helmet morgan jest-config 
 6. npm i @types/express @types/cors @types/morgan --save-dev 
 7. npm i bcrypt compression express-rate-limit express-validator jsonwebtoken multer 
 8. npm i @types/bcrypt @types/compression @types/jsonwebtoken @types/multer --save-dev
+
+9. npm i prisma @types/node @types/pg --save-dev    
+10. npm i @prisma/client @prisma/adapter-pg pg dotenv 
+11. npx prisma init --db --output ../generated/prisma 
+12. npx prisma migrate dev --name init 
+13. npx prisma generate 
