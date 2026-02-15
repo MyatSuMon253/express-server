@@ -16,4 +16,6 @@
 
 14. npx prisma migrate dev // migrate data
 15. npx prisma db push // direct sync with database 
-16. npx prisma migrate dev --create-only
+16. npx prisma migrate dev --create-only // only create migration file
+
+17. npx prisma db seed (or) npx tsx prisma/seed.ts
