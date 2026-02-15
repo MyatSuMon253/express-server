@@ -21,7 +21,7 @@ export function createRandomUser() {
   };
 }
 
-export const userData = faker.helpers.multiple(createRandomUser, { count: 10 });
+export const userData = faker.helpers.multiple(createRandomUser, { count: 5 });
 
 async function main() {
   console.log("start seeding...");
