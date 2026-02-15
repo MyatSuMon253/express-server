@@ -8,6 +8,16 @@
  *
  * 🟢 You can import this file directly.
  */
-export type * from './models/User.js'
+export type * from './models/Category.js'
+export type * from './models/Order.js'
+export type * from './models/Otp.js'
 export type * from './models/Post.js'
+export type * from './models/Product.js'
+export type * from './models/ProductsOnOrders.js'
+export type * from './models/PostTag.js'
+export type * from './models/ProductTag.js'
+export type * from './models/Type.js'
+export type * from './models/User.js'
+export type * from './models/Image.js'
+export type * from './models/Setting.js'
 export type * from './commonInputTypes.js'
