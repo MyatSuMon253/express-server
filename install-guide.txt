@@ -21,3 +21,9 @@
 
 18. npx prisma db seed (or) npx tsx prisma/seed.ts
 19. npx prisma db pull 
+20. npx prisma migrate diff \ 
+    --from-empty \
+    --to-schema prisma/schema.prisma \
+    --script > prisma/migrations/0_init/migration.sql 
+
+21. npx prisma migrate resolve --applied 0_init
