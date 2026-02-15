@@ -6,14 +6,9 @@ import morgan from "morgan";
 
 import { limiter } from "./middlewares/rate_limiter";
 import { CustomRequest } from "./middlewares/check";
-import healthRoute from "./routes/v1/health";
-import viewRoutes from "./routes/web/view";
-import * as errorController from "./controllers/web/errorController";
+import authRoutes from "./routes/v1/auth";
 
 export const app = express();
-
-app.set("view engine", "ejs");
-app.set("views", "src/views");
 
 app
   .use(morgan("dev"))
@@ -24,11 +19,7 @@ app
   .use(compression())
   .use(limiter);
 
-app.use(express.static("public"));
-app.use("/api/v1", healthRoute);
-app.use(viewRoutes);
-
-app.use(errorController.notFound);
+app.use(authRoutes);
 
 app.use((error: any, req: CustomRequest, res: Response, next: NextFunction) => {
   const status = error.status || 500;
