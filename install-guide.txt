@@ -27,3 +27,6 @@
     --script > prisma/migrations/0_init/migration.sql 
 
 21. npx prisma migrate resolve --applied 0_init
+22. npx prisma migrate deploy 
+
+23. npm i ejs
