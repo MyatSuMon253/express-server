@@ -52,17 +52,19 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   Category: 'Category',
+  Image: 'Image',
   Order: 'Order',
   Otp: 'Otp',
   Post: 'Post',
-  Product: 'Product',
-  ProductsOnOrders: 'ProductsOnOrders',
   PostTag: 'PostTag',
+  Product: 'Product',
   ProductTag: 'ProductTag',
+  ProductsOnOrders: 'ProductsOnOrders',
+  Setting: 'Setting',
+  Tag: 'Tag',
+  Taggable: 'Taggable',
   Type: 'Type',
-  User: 'User',
-  Image: 'Image',
-  Setting: 'Setting'
+  User: 'User'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -87,6 +89,15 @@ export const CategoryScalarFieldEnum = {
 } as const
 
 export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
+
+
+export const ImageScalarFieldEnum = {
+  id: 'id',
+  path: 'path',
+  productId: 'productId'
+} as const
+
+export type ImageScalarFieldEnum = (typeof ImageScalarFieldEnum)[keyof typeof ImageScalarFieldEnum]
 
 
 export const OrderScalarFieldEnum = {
@@ -132,6 +143,14 @@ export const PostScalarFieldEnum = {
 export type PostScalarFieldEnum = (typeof PostScalarFieldEnum)[keyof typeof PostScalarFieldEnum]
 
 
+export const PostTagScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type PostTagScalarFieldEnum = (typeof PostTagScalarFieldEnum)[keyof typeof PostTagScalarFieldEnum]
+
+
 export const ProductScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -150,6 +169,14 @@ export const ProductScalarFieldEnum = {
 export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
 
 
+export const ProductTagScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+} as const
+
+export type ProductTagScalarFieldEnum = (typeof ProductTagScalarFieldEnum)[keyof typeof ProductTagScalarFieldEnum]
+
+
 export const ProductsOnOrdersScalarFieldEnum = {
   id: 'id',
   orderId: 'orderId',
@@ -161,20 +188,31 @@ export const ProductsOnOrdersScalarFieldEnum = {
 export type ProductsOnOrdersScalarFieldEnum = (typeof ProductsOnOrdersScalarFieldEnum)[keyof typeof ProductsOnOrdersScalarFieldEnum]
 
 
-export const PostTagScalarFieldEnum = {
+export const SettingScalarFieldEnum = {
+  id: 'id',
+  key: 'key',
+  value: 'value'
+} as const
+
+export type SettingScalarFieldEnum = (typeof SettingScalarFieldEnum)[keyof typeof SettingScalarFieldEnum]
+
+
+export const TagScalarFieldEnum = {
   id: 'id',
   name: 'name'
 } as const
 
-export type PostTagScalarFieldEnum = (typeof PostTagScalarFieldEnum)[keyof typeof PostTagScalarFieldEnum]
+export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
 
 
-export const ProductTagScalarFieldEnum = {
+export const TaggableScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  tagId: 'tagId',
+  type: 'type',
+  typeId: 'typeId'
 } as const
 
-export type ProductTagScalarFieldEnum = (typeof ProductTagScalarFieldEnum)[keyof typeof ProductTagScalarFieldEnum]
+export type TaggableScalarFieldEnum = (typeof TaggableScalarFieldEnum)[keyof typeof TaggableScalarFieldEnum]
 
 
 export const TypeScalarFieldEnum = {
@@ -199,29 +237,10 @@ export const UserScalarFieldEnum = {
   randToken: 'randToken',
   image: 'image',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  city: 'city'
+  updatedAt: 'updatedAt'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
-export const ImageScalarFieldEnum = {
-  id: 'id',
-  path: 'path',
-  productId: 'productId'
-} as const
-
-export type ImageScalarFieldEnum = (typeof ImageScalarFieldEnum)[keyof typeof ImageScalarFieldEnum]
-
-
-export const SettingScalarFieldEnum = {
-  id: 'id',
-  key: 'key',
-  value: 'value'
-} as const
-
-export type SettingScalarFieldEnum = (typeof SettingScalarFieldEnum)[keyof typeof SettingScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -286,7 +286,7 @@ export type ProductsOnOrdersScalarWhereWithAggregatesInput = {
 export type ProductsOnOrdersCreateInput = {
   quantity: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  order: Prisma.OrderCreateNestedOneWithoutProductsInput
+  order: Prisma.OrderCreateNestedOneWithoutProductsOnOrdersInput
   product: Prisma.ProductCreateNestedOneWithoutOrdersInput
 }
 
@@ -301,7 +301,7 @@ export type ProductsOnOrdersUncheckedCreateInput = {
 export type ProductsOnOrdersUpdateInput = {
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  order?: Prisma.OrderUpdateOneRequiredWithoutProductsNestedInput
+  order?: Prisma.OrderUpdateOneRequiredWithoutProductsOnOrdersNestedInput
   product?: Prisma.ProductUpdateOneRequiredWithoutOrdersNestedInput
 }
 
@@ -521,7 +521,7 @@ export type ProductsOnOrdersScalarWhereInput = {
 export type ProductsOnOrdersCreateWithoutProductInput = {
   quantity: number
   price: runtime.Decimal | runtime.DecimalJsLike | number | string
-  order: Prisma.OrderCreateNestedOneWithoutProductsInput
+  order: Prisma.OrderCreateNestedOneWithoutProductsOnOrdersInput
 }
 
 export type ProductsOnOrdersUncheckedCreateWithoutProductInput = {
@@ -594,7 +594,7 @@ export type ProductsOnOrdersCreateManyProductInput = {
 export type ProductsOnOrdersUpdateWithoutProductInput = {
   quantity?: Prisma.IntFieldUpdateOperationsInput | number
   price?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
-  order?: Prisma.OrderUpdateOneRequiredWithoutProductsNestedInput
+  order?: Prisma.OrderUpdateOneRequiredWithoutProductsOnOrdersNestedInput
 }
 
 export type ProductsOnOrdersUncheckedUpdateWithoutProductInput = {

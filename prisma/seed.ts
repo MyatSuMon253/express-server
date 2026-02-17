@@ -18,6 +18,7 @@ export function createRandomUser() {
     phone: faker.phone.number({ style: "international" }),
     password: "",
     randToken: faker.internet.jwt(),
+    updatedAt: new Date(),
   };
 }
 

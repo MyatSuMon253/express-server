@@ -51,7 +51,6 @@ export type UserMinAggregateOutputType = {
   image: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  city: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -69,7 +68,6 @@ export type UserMaxAggregateOutputType = {
   image: string | null
   createdAt: Date | null
   updatedAt: Date | null
-  city: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -87,7 +85,6 @@ export type UserCountAggregateOutputType = {
   image: number
   createdAt: number
   updatedAt: number
-  city: number
   _all: number
 }
 
@@ -117,7 +114,6 @@ export type UserMinAggregateInputType = {
   image?: true
   createdAt?: true
   updatedAt?: true
-  city?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -135,7 +131,6 @@ export type UserMaxAggregateInputType = {
   image?: true
   createdAt?: true
   updatedAt?: true
-  city?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -153,7 +148,6 @@ export type UserCountAggregateInputType = {
   image?: true
   createdAt?: true
   updatedAt?: true
-  city?: true
   _all?: true
 }
 
@@ -258,7 +252,6 @@ export type UserGroupByOutputType = {
   image: string | null
   createdAt: Date
   updatedAt: Date
-  city: string | null
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -299,7 +292,6 @@ export type UserWhereInput = {
   image?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  city?: Prisma.StringNullableFilter<"User"> | string | null
   orders?: Prisma.OrderListRelationFilter
   posts?: Prisma.PostListRelationFilter
   products?: Prisma.ProductListRelationFilter
@@ -320,7 +312,6 @@ export type UserOrderByWithRelationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  city?: Prisma.SortOrderInput | Prisma.SortOrder
   orders?: Prisma.OrderOrderByRelationAggregateInput
   posts?: Prisma.PostOrderByRelationAggregateInput
   products?: Prisma.ProductOrderByRelationAggregateInput
@@ -344,7 +335,6 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   image?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  city?: Prisma.StringNullableFilter<"User"> | string | null
   orders?: Prisma.OrderListRelationFilter
   posts?: Prisma.PostListRelationFilter
   products?: Prisma.ProductListRelationFilter
@@ -365,7 +355,6 @@ export type UserOrderByWithAggregationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  city?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -391,7 +380,6 @@ export type UserScalarWhereWithAggregatesInput = {
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
-  city?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
 }
 
 export type UserCreateInput = {
@@ -408,7 +396,6 @@ export type UserCreateInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  city?: string | null
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
   products?: Prisma.ProductCreateNestedManyWithoutUsersInput
@@ -429,7 +416,6 @@ export type UserUncheckedCreateInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  city?: string | null
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutUsersInput
@@ -449,7 +435,6 @@ export type UserUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   products?: Prisma.ProductUpdateManyWithoutUsersNestedInput
@@ -470,7 +455,6 @@ export type UserUncheckedUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutUsersNestedInput
@@ -491,7 +475,6 @@ export type UserCreateManyInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  city?: string | null
 }
 
 export type UserUpdateManyMutationInput = {
@@ -508,7 +491,6 @@ export type UserUpdateManyMutationInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -526,7 +508,6 @@ export type UserUncheckedUpdateManyInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type UserScalarRelationFilter = {
@@ -559,7 +540,6 @@ export type UserCountOrderByAggregateInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  city?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -582,7 +562,6 @@ export type UserMaxOrderByAggregateInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  city?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -600,7 +579,6 @@ export type UserMinOrderByAggregateInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  city?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -696,7 +674,6 @@ export type UserCreateWithoutOrdersInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  city?: string | null
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
   products?: Prisma.ProductCreateNestedManyWithoutUsersInput
 }
@@ -716,7 +693,6 @@ export type UserUncheckedCreateWithoutOrdersInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  city?: string | null
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutUsersInput
 }
@@ -751,7 +727,6 @@ export type UserUpdateWithoutOrdersInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
   products?: Prisma.ProductUpdateManyWithoutUsersNestedInput
 }
@@ -771,7 +746,6 @@ export type UserUncheckedUpdateWithoutOrdersInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutUsersNestedInput
 }
@@ -790,7 +764,6 @@ export type UserCreateWithoutPostsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  city?: string | null
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   products?: Prisma.ProductCreateNestedManyWithoutUsersInput
 }
@@ -810,7 +783,6 @@ export type UserUncheckedCreateWithoutPostsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  city?: string | null
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   products?: Prisma.ProductUncheckedCreateNestedManyWithoutUsersInput
 }
@@ -845,7 +817,6 @@ export type UserUpdateWithoutPostsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   products?: Prisma.ProductUpdateManyWithoutUsersNestedInput
 }
@@ -865,7 +836,6 @@ export type UserUncheckedUpdateWithoutPostsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   products?: Prisma.ProductUncheckedUpdateManyWithoutUsersNestedInput
 }
@@ -884,7 +854,6 @@ export type UserCreateWithoutProductsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  city?: string | null
   orders?: Prisma.OrderCreateNestedManyWithoutUserInput
   posts?: Prisma.PostCreateNestedManyWithoutAuthorInput
 }
@@ -904,7 +873,6 @@ export type UserUncheckedCreateWithoutProductsInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  city?: string | null
   orders?: Prisma.OrderUncheckedCreateNestedManyWithoutUserInput
   posts?: Prisma.PostUncheckedCreateNestedManyWithoutAuthorInput
 }
@@ -948,7 +916,6 @@ export type UserScalarWhereInput = {
   image?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  city?: Prisma.StringNullableFilter<"User"> | string | null
 }
 
 export type UserUpdateWithoutProductsInput = {
@@ -965,7 +932,6 @@ export type UserUpdateWithoutProductsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orders?: Prisma.OrderUpdateManyWithoutUserNestedInput
   posts?: Prisma.PostUpdateManyWithoutAuthorNestedInput
 }
@@ -985,7 +951,6 @@ export type UserUncheckedUpdateWithoutProductsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   orders?: Prisma.OrderUncheckedUpdateManyWithoutUserNestedInput
   posts?: Prisma.PostUncheckedUpdateManyWithoutAuthorNestedInput
 }
@@ -1005,7 +970,6 @@ export type UserUncheckedUpdateManyWithoutProductsInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1072,7 +1036,6 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  city?: boolean
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
   products?: boolean | Prisma.User$productsArgs<ExtArgs>
@@ -1094,7 +1057,6 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  city?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1112,7 +1074,6 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  city?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -1130,10 +1091,9 @@ export type UserSelectScalar = {
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  city?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "phone" | "password" | "email" | "role" | "status" | "lastLogin" | "errorLoginCount" | "randToken" | "image" | "createdAt" | "updatedAt" | "city", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "phone" | "password" | "email" | "role" | "status" | "lastLogin" | "errorLoginCount" | "randToken" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   orders?: boolean | Prisma.User$ordersArgs<ExtArgs>
   posts?: boolean | Prisma.User$postsArgs<ExtArgs>
@@ -1165,7 +1125,6 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     image: string | null
     createdAt: Date
     updatedAt: Date
-    city: string | null
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1606,7 +1565,6 @@ export interface UserFieldRefs {
   readonly image: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
-  readonly city: Prisma.FieldRef<"User", 'String'>
 }
     
 

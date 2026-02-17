@@ -204,14 +204,14 @@ export type ImageWhereInput = {
   id?: Prisma.IntFilter<"Image"> | number
   path?: Prisma.StringFilter<"Image"> | string
   productId?: Prisma.IntFilter<"Image"> | number
-  product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
+  Product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }
 
 export type ImageOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   path?: Prisma.SortOrder
   productId?: Prisma.SortOrder
-  product?: Prisma.ProductOrderByWithRelationInput
+  Product?: Prisma.ProductOrderByWithRelationInput
 }
 
 export type ImageWhereUniqueInput = Prisma.AtLeast<{
@@ -221,7 +221,7 @@ export type ImageWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ImageWhereInput | Prisma.ImageWhereInput[]
   path?: Prisma.StringFilter<"Image"> | string
   productId?: Prisma.IntFilter<"Image"> | number
-  product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
+  Product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }, "id">
 
 export type ImageOrderByWithAggregationInput = {
@@ -246,7 +246,7 @@ export type ImageScalarWhereWithAggregatesInput = {
 
 export type ImageCreateInput = {
   path: string
-  product: Prisma.ProductCreateNestedOneWithoutImagesInput
+  Product: Prisma.ProductCreateNestedOneWithoutImageInput
 }
 
 export type ImageUncheckedCreateInput = {
@@ -257,7 +257,7 @@ export type ImageUncheckedCreateInput = {
 
 export type ImageUpdateInput = {
   path?: Prisma.StringFieldUpdateOperationsInput | string
-  product?: Prisma.ProductUpdateOneRequiredWithoutImagesNestedInput
+  Product?: Prisma.ProductUpdateOneRequiredWithoutImageNestedInput
 }
 
 export type ImageUncheckedUpdateInput = {
@@ -280,16 +280,6 @@ export type ImageUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   path?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.IntFieldUpdateOperationsInput | number
-}
-
-export type ImageListRelationFilter = {
-  every?: Prisma.ImageWhereInput
-  some?: Prisma.ImageWhereInput
-  none?: Prisma.ImageWhereInput
-}
-
-export type ImageOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
 }
 
 export type ImageCountOrderByAggregateInput = {
@@ -318,6 +308,16 @@ export type ImageMinOrderByAggregateInput = {
 export type ImageSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   productId?: Prisma.SortOrder
+}
+
+export type ImageListRelationFilter = {
+  every?: Prisma.ImageWhereInput
+  some?: Prisma.ImageWhereInput
+  none?: Prisma.ImageWhereInput
+}
+
+export type ImageOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type ImageCreateNestedManyWithoutProductInput = {
@@ -431,21 +431,21 @@ export type ImageSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   id?: boolean
   path?: boolean
   productId?: boolean
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  Product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["image"]>
 
 export type ImageSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   path?: boolean
   productId?: boolean
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  Product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["image"]>
 
 export type ImageSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   path?: boolean
   productId?: boolean
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  Product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["image"]>
 
 export type ImageSelectScalar = {
@@ -456,19 +456,19 @@ export type ImageSelectScalar = {
 
 export type ImageOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "path" | "productId", ExtArgs["result"]["image"]>
 export type ImageInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  Product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
 export type ImageIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  Product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
 export type ImageIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
+  Product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
 
 export type $ImagePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Image"
   objects: {
-    product: Prisma.$ProductPayload<ExtArgs>
+    Product: Prisma.$ProductPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -868,7 +868,7 @@ readonly fields: ImageFieldRefs;
  */
 export interface Prisma__ImageClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  Product<T extends Prisma.ProductDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProductDefaultArgs<ExtArgs>>): Prisma.Prisma__ProductClient<runtime.Types.Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.

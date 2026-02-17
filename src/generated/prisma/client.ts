@@ -45,6 +45,11 @@ export { Prisma }
  */
 export type Category = Prisma.CategoryModel
 /**
+ * Model Image
+ * 
+ */
+export type Image = Prisma.ImageModel
+/**
  * Model Order
  * 
  */
@@ -60,25 +65,40 @@ export type Otp = Prisma.OtpModel
  */
 export type Post = Prisma.PostModel
 /**
+ * Model PostTag
+ * 
+ */
+export type PostTag = Prisma.PostTagModel
+/**
  * Model Product
  * 
  */
 export type Product = Prisma.ProductModel
+/**
+ * Model ProductTag
+ * 
+ */
+export type ProductTag = Prisma.ProductTagModel
 /**
  * Model ProductsOnOrders
  * 
  */
 export type ProductsOnOrders = Prisma.ProductsOnOrdersModel
 /**
- * Model PostTag
+ * Model Setting
  * 
  */
-export type PostTag = Prisma.PostTagModel
+export type Setting = Prisma.SettingModel
 /**
- * Model ProductTag
+ * Model Tag
  * 
  */
-export type ProductTag = Prisma.ProductTagModel
+export type Tag = Prisma.TagModel
+/**
+ * Model Taggable
+ * 
+ */
+export type Taggable = Prisma.TaggableModel
 /**
  * Model Type
  * 
@@ -89,13 +109,3 @@ export type Type = Prisma.TypeModel
  * 
  */
 export type User = Prisma.UserModel
-/**
- * Model Image
- * 
- */
-export type Image = Prisma.ImageModel
-/**
- * Model Setting
- * 
- */
-export type Setting = Prisma.SettingModel
