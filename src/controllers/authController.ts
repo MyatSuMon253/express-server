@@ -470,8 +470,16 @@ export const logout = async (
   await updateUser(user!.id, userData);
 
   // clear httpOnly cookies
-  res.clearCookie("accessToken");
-  res.clearCookie("refreshToken");
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+  });
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+  });
 
   res.status(200).json({ message: "Successfully logged out." });
 };
