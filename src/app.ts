@@ -3,7 +3,7 @@ import helmet from "helmet";
 import compression from "compression";
 import cors from "cors";
 import morgan from "morgan";
-import cookieParser from "cookie-parser"; 
+import cookieParser from "cookie-parser";
 
 import { limiter } from "./middlewares/rate_limiter";
 import { auth } from "./middlewares/auth";
@@ -13,12 +13,31 @@ import userRoutes from "./routes/v1/admin/user";
 
 export const app = express();
 
+const whitelist = ["http://localhost:5173"];
+const corsOptions = {
+  origin: function (
+    origin: any,
+    callback: (err: Error | null, origin?: any) => void,
+  ) {
+    // allow requests with no origin (like mobile apps or curl requests)
+    // accept mobile and postman
+    if (!origin) return callback(null, true);
+
+    if (whitelist.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // allow cookies or authorization header
+};
+
 app
   .use(morgan("dev"))
   .use(express.urlencoded({ extended: true }))
   .use(express.json())
   .use(cookieParser())
-  .use(cors())
+  .use(cors(corsOptions))
   .use(helmet())
   .use(compression())
   .use(limiter);
