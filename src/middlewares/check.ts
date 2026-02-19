@@ -1,8 +1,5 @@
-import { Request, Response, NextFunction } from "express";
-
-export interface CustomRequest extends Request {
-  userId?: number;
-}
+import { Response, NextFunction } from "express";
+import { CustomRequest } from "../types";
 
 export const check = (
   req: CustomRequest,

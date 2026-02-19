@@ -412,6 +412,6 @@ export const login = [
         maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
       })
       .status(200)
-      .json({ message: "successfully login" });
+      .json({ message: "successfully login", userId: user!.id });
   },
 ];

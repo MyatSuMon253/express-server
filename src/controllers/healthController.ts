@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express";
 
-import { CustomRequest } from "../middlewares/check";
+import { CustomRequest } from "../types";
 
 export const healthCheck = (
   req: CustomRequest,

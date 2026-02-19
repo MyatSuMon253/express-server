@@ -19,4 +19,6 @@ export const ERROR_CODES = {
   BAD_REQUEST: "Error_BadRequest",
   FREEZE: "Error_Freeze",
   UNAUTHENTICATED: "Error_Unauthenticated",
+  ACCESS_TOKEN_EXPIRED: "Error_AccessTokenExpired",
+  ATTACK: "Error_Attack"
 } as const;
