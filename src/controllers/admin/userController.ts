@@ -8,5 +8,5 @@ export const getAllUsers = (
 ) => {
   const id = req.userId;
 
-  res.status(200).json({ message: "All Users", currentUserId: id , hi: 'hi'});
+  res.status(200).json({ message: "All Users", currentUserId: id });
 };

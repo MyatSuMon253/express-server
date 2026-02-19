@@ -7,6 +7,7 @@ import {
   createOtp,
   createUser,
   getOtpByPhone,
+  getUserById,
   getUserByPhone,
   updateOtp,
   updateUser,
@@ -257,8 +258,8 @@ export const confirmPassword = [
     const userData = { phone, password: hashedPassword, randToken };
     const newUser = await createUser(userData);
 
-    const accessTokenPayload = { userId: newUser.id };
-    const refreshTokenPayload = { userId: newUser.id, phone: newUser.phone };
+    const accessTokenPayload = { id: newUser.id };
+    const refreshTokenPayload = { id: newUser.id, phone: newUser.phone };
 
     const accessToken = jwt.sign(
       accessTokenPayload,
@@ -373,8 +374,8 @@ export const login = [
     }
 
     // authorization token
-    const accessTokenPayload = { userId: user!.id };
-    const refreshTokenPayload = { userId: user!.id, phone: user!.phone };
+    const accessTokenPayload = { id: user!.id };
+    const refreshTokenPayload = { id: user!.id, phone: user!.phone };
 
     const accessToken = jwt.sign(
       accessTokenPayload,
@@ -415,3 +416,62 @@ export const login = [
       .json({ message: "successfully login", userId: user!.id });
   },
 ];
+
+export const logout = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const refreshToken = req.cookies ? req.cookies.refreshToken : null;
+
+  if (!refreshToken) {
+    return next(
+      createError(
+        "You are not an authenticated user.",
+        401,
+        ERROR_CODES.UNAUTHENTICATED,
+      ),
+    );
+  }
+
+  let decoded;
+  try {
+    decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET!) as {
+      id: number;
+      phone: string;
+    };
+  } catch (error) {
+    return next(
+      createError(
+        "You are not an authenticated user.",
+        401,
+        ERROR_CODES.UNAUTHENTICATED,
+      ),
+    );
+  }
+
+  const user = await getUserById(decoded.id);
+  checkUserIfNotExist(user);
+
+  if (user?.phone !== decoded.phone) {
+    return next(
+      createError(
+        "You are not an authenticated user.",
+        401,
+        ERROR_CODES.UNAUTHENTICATED,
+      ),
+    );
+  }
+
+  // update randToken(refreshToken) in user table
+  const userData = {
+    randToken: generateToken(),
+  };
+  await updateUser(user!.id, userData);
+
+  // clear httpOnly cookies
+  res.clearCookie("accessToken");
+  res.clearCookie("refreshToken");
+
+  res.status(200).json({ message: "Successfully logged out." });
+};
