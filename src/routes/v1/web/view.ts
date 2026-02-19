@@ -1,6 +1,6 @@
 import express from "express";
 
-import { home, users } from "../../controllers/web/viewController";
+import { home, users } from "../../../controllers/web/viewController";
 
 const router = express.Router();
 

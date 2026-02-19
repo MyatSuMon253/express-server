@@ -18,6 +18,8 @@ import {
   checkUserIfNotExist,
 } from "../utils/auth";
 import { generateOTP, generateToken } from "../utils/generate";
+import { createError } from "../utils/error";
+import { HTTP_STATUS, ERROR_CODES } from "../utils/errorCodes";
 import moment from "moment";
 
 export const register = [
@@ -30,10 +32,7 @@ export const register = [
     const errors = validationResult(req).array({ onlyFirstError: true });
 
     if (errors.length > 0) {
-      const error: any = new Error(errors[0].msg);
-      error.status = 400;
-      error.code = "ERR_INVALID";
-      return next(error);
+      return next(createError(errors[0].msg, 400, ERROR_CODES.INVALID_INPUT));
     }
 
     let phone = req.body.phone;
@@ -48,8 +47,8 @@ export const register = [
     // Generate OTP & call OTP sending API
     // if sms OTP cannot be sent, response error
     // Save OTP to DB
-    const otp = generateOTP();
-    // const otp = 123456;
+    // const otp = generateOTP();
+    const otp = 123456;
     const salt = await bcrypt.genSalt(10);
     const hasedOtp = await bcrypt.hash(otp.toString(), salt);
     const token = generateToken();
@@ -82,12 +81,13 @@ export const register = [
         result = await updateOtp(otpRow.id, otpData);
       } else {
         if (otpRow.count === 3) {
-          const error: any = new Error(
-            "OTP is allowed to request 3 times per day.",
+          return next(
+            createError(
+              "OTP is allowed to request 3 times per day.",
+              405,
+              ERROR_CODES.OVER_LIMIT,
+            ),
           );
-          error.status = 405;
-          error.code = "Error_OverLimit";
-          return next(error);
         } else {
           const otpData = {
             phone,
@@ -124,10 +124,7 @@ export const verifyOtp = [
     const errors = validationResult(req).array({ onlyFirstError: true });
 
     if (errors.length > 0) {
-      const error: any = new Error(errors[0].msg);
-      error.status = 400;
-      error.code = "ERR_INVALID";
-      return next(error);
+      return next(createError(errors[0].msg, 400, ERROR_CODES.INVALID_INPUT));
     }
 
     const { phone, otp, token } = req.body;
@@ -150,19 +147,13 @@ export const verifyOtp = [
       };
       await updateOtp(otpRow!.id, otpData);
 
-      const error: any = new Error("Invalid token");
-      error.status = 400;
-      error.code = "Error_Invalid";
-      return next(error);
+      return next(createError("Invalid token", 400, ERROR_CODES.INVALID));
     }
 
     // otp is expired 2 min
     const isExpired = moment().diff(otpRow?.updatedAt, "minute") > 2;
     if (isExpired) {
-      const error: any = new Error("Otp is expired");
-      error.status = 403;
-      error.code = "Error_Expired";
-      return next(error);
+      return next(createError("Otp is expired", 403, ERROR_CODES.EXPIRED));
     }
 
     const isMatch = await bcrypt.compare(otp, otpRow!.otp);
@@ -181,10 +172,7 @@ export const verifyOtp = [
         };
         await updateOtp(otpRow!.id, otpData);
       }
-      const error: any = new Error("Otp is incorrect");
-      error.status = 400;
-      error.code = "Error_Invalid";
-      return next(error);
+      return next(createError("Otp is incorrect", 400, ERROR_CODES.INVALID));
     }
 
     const verifyToken = generateToken();
@@ -219,10 +207,7 @@ export const confirmPassword = [
     const errors = validationResult(req).array({ onlyFirstError: true });
 
     if (errors.length > 0) {
-      const error: any = new Error(errors[0].msg);
-      error.status = 400;
-      error.code = "ERR_INVALID";
-      return next(error);
+      return next(createError(errors[0].msg, 400, ERROR_CODES.INVALID_INPUT));
     }
 
     const { phone, password, token } = req.body;
@@ -234,10 +219,13 @@ export const confirmPassword = [
 
     // otp error count is over limit
     if (otpRow?.error === 5) {
-      const error: any = new Error("This request may be an attack");
-      error.status = 400;
-      error.code = "Error_BadRequest";
-      return next(error);
+      return next(
+        createError(
+          "This request may be an attack",
+          400,
+          ERROR_CODES.BAD_REQUEST,
+        ),
+      );
     }
 
     // token is wrong
@@ -247,19 +235,19 @@ export const confirmPassword = [
       };
       await updateOtp(otpRow!.id, otpData);
 
-      const error: any = new Error("Invalid token");
-      error.status = 400;
-      error.code = "Error_Invalid";
-      return next(error);
+      return next(createError("Invalid token", 400, ERROR_CODES.INVALID));
     }
 
     // request is expired (2min)
     const isExpired = moment().diff(otpRow!.updatedAt, "minute") > 10;
     if (isExpired) {
-      const error: any = new Error("Your request is expired. Please try again");
-      error.status = 403;
-      error.code = "Error_Expired";
-      return next(error);
+      return next(
+        createError(
+          "Your request is expired. Please try again",
+          403,
+          ERROR_CODES.EXPIRED,
+        ),
+      );
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -324,28 +312,31 @@ export const login = [
     .trim()
     .notEmpty()
     .isLength({ min: 6, max: 6 }),
-  body("token", "Invalid token").trim().notEmpty().escape(),
   async (req: Request, res: Response, next: NextFunction) => {
     const errors = validationResult(req).array({ onlyFirstError: true });
 
     if (errors.length > 0) {
-      const error: any = new Error(errors[0].msg);
-      error.status = 400;
-      error.code = "ERR_INVALID";
-      return next(error);
+      return next(createError(errors[0].msg, 400, ERROR_CODES.INVALID_INPUT));
     }
 
-    const { phone, password } = req.body;
+    const password = req.body.password;
+    let phone = req.body.phone;
+    if (phone.slice(0, 2) === "09") {
+      phone = phone.substring(2, phone.length);
+    }
 
     const user = await getUserByPhone(phone);
     checkUserIfNotExist(user);
 
     // wrong password is over limit
-    if (user?.status === "FREEZE") {
-      const error: any = new Error("Your account is frozen. Please contact us");
-      error.status = 401;
-      error.code = "Error_Freeze";
-      return next(error);
+    if (user!.status === "FREEZE") {
+      return next(
+        createError(
+          "Your account is frozen. Please contact us",
+          401,
+          ERROR_CODES.FREEZE,
+        ),
+      );
     }
 
     const isMatchedPassword = await bcrypt.compare(password, user!.password);
@@ -376,10 +367,9 @@ export const login = [
         }
       }
 
-      const error: any = new Error("Password is incorrect");
-      error.status = 401;
-      error.code = "Error_Unauthenticated";
-      return next(error);
+      return next(
+        createError("Password is incorrect", 401, ERROR_CODES.UNAUTHENTICATED),
+      );
     }
 
     // authorization token
@@ -422,6 +412,6 @@ export const login = [
         maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
       })
       .status(200)
-      .json({ message: "login" });
+      .json({ message: "successfully login" });
   },
 ];

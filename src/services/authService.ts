@@ -32,7 +32,7 @@ export const createUser = async (userData: any) => {
 };
 
 export const updateUser = async (id: number, userData: any) => {
-  return prisma.otp.update({
+  return prisma.user.update({
     where: { id },
     data: userData,
   });

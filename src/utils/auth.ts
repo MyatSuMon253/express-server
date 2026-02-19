@@ -31,7 +31,7 @@ export const checkOtpRow = (otpRow: any) => {
 };
 
 export const checkUserIfNotExist = (user: any) => {
-  if (user) {
+  if (!user) {
     const error: any = new Error("This phone has not registered yet");
     error.status = 401;
     error.code = "Error_Unauthenticated";
