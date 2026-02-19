@@ -15,6 +15,7 @@ import {
   checkOtpErrorIfSameDate,
   checkOtpRow,
   checkUserExist,
+  checkUserIfNotExist,
 } from "../utils/auth";
 import { generateOTP, generateToken } from "../utils/generate";
 import moment from "moment";
@@ -313,10 +314,114 @@ export const confirmPassword = [
   },
 ];
 
-export const login = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  res.status(200).json({ message: "login" });
-};
+export const login = [
+  body("phone", "Invalid phone number")
+    .trim()
+    .notEmpty()
+    .matches("^[0-9]+$")
+    .isLength({ min: 5, max: 12 }),
+  body("password", "Password must be at least 6 characters")
+    .trim()
+    .notEmpty()
+    .isLength({ min: 6, max: 6 }),
+  body("token", "Invalid token").trim().notEmpty().escape(),
+  async (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req).array({ onlyFirstError: true });
+
+    if (errors.length > 0) {
+      const error: any = new Error(errors[0].msg);
+      error.status = 400;
+      error.code = "ERR_INVALID";
+      return next(error);
+    }
+
+    const { phone, password } = req.body;
+
+    const user = await getUserByPhone(phone);
+    checkUserIfNotExist(user);
+
+    // wrong password is over limit
+    if (user?.status === "FREEZE") {
+      const error: any = new Error("Your account is frozen. Please contact us");
+      error.status = 401;
+      error.code = "Error_Freeze";
+      return next(error);
+    }
+
+    const isMatchedPassword = await bcrypt.compare(password, user!.password);
+    if (!isMatchedPassword) {
+      // record wrong time
+      const lastRequest = new Date(user!.updatedAt).toLocaleDateString();
+      const isSameDate = lastRequest == new Date().toLocaleDateString();
+
+      // today password wrong first time
+      if (!isSameDate) {
+        const userData = {
+          errorLoginCount: 1,
+        };
+        await updateUser(user!.id, userData);
+      } else {
+        // today password wrong 2 times
+        if (user!.errorLoginCount >= 2) {
+          const userData = {
+            status: "FREEZE",
+          };
+          await updateUser(user!.id, userData);
+        } else {
+          // today password wrong 1 time
+          const userData = {
+            errorLoginCount: { increment: 1 },
+          };
+          await updateUser(user!.id, userData);
+        }
+      }
+
+      const error: any = new Error("Password is incorrect");
+      error.status = 401;
+      error.code = "Error_Unauthenticated";
+      return next(error);
+    }
+
+    // authorization token
+    const accessTokenPayload = { userId: user!.id };
+    const refreshTokenPayload = { userId: user!.id, phone: user!.phone };
+
+    const accessToken = jwt.sign(
+      accessTokenPayload,
+      process.env.ACCESS_TOKEN_SECRET!,
+      {
+        expiresIn: 60 * 15,
+      },
+    );
+
+    const refreshToken = jwt.sign(
+      refreshTokenPayload,
+      process.env.REFRESH_TOKEN_SECRET!,
+      {
+        expiresIn: "30d",
+      },
+    );
+
+    const userUpdateData = {
+      errorLoginCount: 0, // reset err count
+      randToken: refreshToken,
+    };
+    await updateUser(user!.id, userUpdateData);
+
+    res
+      .cookie("accessToken", accessToken, {
+        httpOnly: true,
+        secure: process.env.NOED_ENV === "production",
+        sameSite: process.env.NOED_ENV === "production" ? "none" : "strict",
+        maxAge: 1000 * 60 * 15, // 15 minutes
+      })
+      .cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: process.env.NOED_ENV === "production",
+        sameSite: process.env.NOED_ENV === "production" ? "none" : "strict",
+        maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+      })
+      .status(200)
+      .json({ message: "login" });
+  },
+];
