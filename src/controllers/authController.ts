@@ -20,8 +20,8 @@ import {
 } from "../utils/auth";
 import { generateOTP, generateToken } from "../utils/generate";
 import { createError } from "../utils/error";
-import { HTTP_STATUS, ERROR_CODES } from "../utils/errorCodes";
 import moment from "moment";
+import { errorCode } from "../config/errorCode";
 
 export const register = [
   body("phone", "Invalid phone number")
@@ -33,7 +33,7 @@ export const register = [
     const errors = validationResult(req).array({ onlyFirstError: true });
 
     if (errors.length > 0) {
-      return next(createError(errors[0].msg, 400, ERROR_CODES.INVALID_INPUT));
+      return next(createError(errors[0].msg, 400, errorCode.invalid));
     }
 
     let phone = req.body.phone;
@@ -86,7 +86,7 @@ export const register = [
             createError(
               "OTP is allowed to request 3 times per day.",
               405,
-              ERROR_CODES.OVER_LIMIT,
+              errorCode.overLimit,
             ),
           );
         } else {
@@ -125,7 +125,7 @@ export const verifyOtp = [
     const errors = validationResult(req).array({ onlyFirstError: true });
 
     if (errors.length > 0) {
-      return next(createError(errors[0].msg, 400, ERROR_CODES.INVALID_INPUT));
+      return next(createError(errors[0].msg, 400, errorCode.invalid));
     }
 
     const { phone, otp, token } = req.body;
@@ -148,13 +148,13 @@ export const verifyOtp = [
       };
       await updateOtp(otpRow!.id, otpData);
 
-      return next(createError("Invalid token", 400, ERROR_CODES.INVALID));
+      return next(createError("Invalid token", 400, errorCode.invalid));
     }
 
     // otp is expired 2 min
     const isExpired = moment().diff(otpRow?.updatedAt, "minute") > 2;
     if (isExpired) {
-      return next(createError("Otp is expired", 403, ERROR_CODES.EXPIRED));
+      return next(createError("Otp is expired", 403, errorCode.otpExpired));
     }
 
     const isMatch = await bcrypt.compare(otp, otpRow!.otp);
@@ -173,7 +173,7 @@ export const verifyOtp = [
         };
         await updateOtp(otpRow!.id, otpData);
       }
-      return next(createError("Otp is incorrect", 400, ERROR_CODES.INVALID));
+      return next(createError("Otp is incorrect", 400, errorCode.invalid));
     }
 
     const verifyToken = generateToken();
@@ -208,7 +208,7 @@ export const confirmPassword = [
     const errors = validationResult(req).array({ onlyFirstError: true });
 
     if (errors.length > 0) {
-      return next(createError(errors[0].msg, 400, ERROR_CODES.INVALID_INPUT));
+      return next(createError(errors[0].msg, 400, errorCode.invalid));
     }
 
     const { phone, password, token } = req.body;
@@ -221,11 +221,7 @@ export const confirmPassword = [
     // otp error count is over limit
     if (otpRow?.error === 5) {
       return next(
-        createError(
-          "This request may be an attack",
-          400,
-          ERROR_CODES.BAD_REQUEST,
-        ),
+        createError("This request may be an attack", 400, errorCode.attack),
       );
     }
 
@@ -236,7 +232,7 @@ export const confirmPassword = [
       };
       await updateOtp(otpRow!.id, otpData);
 
-      return next(createError("Invalid token", 400, ERROR_CODES.INVALID));
+      return next(createError("Invalid token", 400, errorCode.invalid));
     }
 
     // request is expired (2min)
@@ -246,7 +242,7 @@ export const confirmPassword = [
         createError(
           "Your request is expired. Please try again",
           403,
-          ERROR_CODES.EXPIRED,
+          errorCode.requestExpired,
         ),
       );
     }
@@ -317,7 +313,7 @@ export const login = [
     const errors = validationResult(req).array({ onlyFirstError: true });
 
     if (errors.length > 0) {
-      return next(createError(errors[0].msg, 400, ERROR_CODES.INVALID_INPUT));
+      return next(createError(errors[0].msg, 400, errorCode.invalid));
     }
 
     const password = req.body.password;
@@ -335,7 +331,7 @@ export const login = [
         createError(
           "Your account is frozen. Please contact us",
           401,
-          ERROR_CODES.FREEZE,
+          errorCode.accountFreeze,
         ),
       );
     }
@@ -368,9 +364,7 @@ export const login = [
         }
       }
 
-      return next(
-        createError("Password is incorrect", 401, ERROR_CODES.UNAUTHENTICATED),
-      );
+      return next(createError("Password is incorrect", 401, errorCode.invalid));
     }
 
     // authorization token
@@ -429,7 +423,7 @@ export const logout = async (
       createError(
         "You are not an authenticated user.",
         401,
-        ERROR_CODES.UNAUTHENTICATED,
+        errorCode.unauthenticated,
       ),
     );
   }
@@ -445,7 +439,7 @@ export const logout = async (
       createError(
         "You are not an authenticated user.",
         401,
-        ERROR_CODES.UNAUTHENTICATED,
+        errorCode.unauthenticated,
       ),
     );
   }
@@ -458,7 +452,7 @@ export const logout = async (
       createError(
         "You are not an authenticated user.",
         401,
-        ERROR_CODES.UNAUTHENTICATED,
+        errorCode.unauthenticated,
       ),
     );
   }

@@ -2,8 +2,8 @@ import { Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
 import { createError } from "../utils/error";
-import { ERROR_CODES } from "../utils/errorCodes";
 import { CustomRequest } from "../types";
+import { errorCode } from "../config/errorCode";
 
 export const auth = (req: CustomRequest, res: Response, next: NextFunction) => {
   const accessToken = req.cookies ? req.cookies.accessToken : null;
@@ -14,7 +14,7 @@ export const auth = (req: CustomRequest, res: Response, next: NextFunction) => {
       createError(
         "You are not authenticated user.",
         401,
-        ERROR_CODES.UNAUTHENTICATED,
+        errorCode.unauthenticated,
       ),
     );
   }
@@ -24,7 +24,7 @@ export const auth = (req: CustomRequest, res: Response, next: NextFunction) => {
       createError(
         "Access token has expired.",
         401,
-        ERROR_CODES.ACCESS_TOKEN_EXPIRED,
+        errorCode.accessTokenExpired,
       ),
     );
   }
@@ -42,10 +42,10 @@ export const auth = (req: CustomRequest, res: Response, next: NextFunction) => {
       err = createError(
         "Access token has expired.",
         401,
-        ERROR_CODES.ACCESS_TOKEN_EXPIRED,
+        errorCode.accessTokenExpired,
       );
     } else {
-      err = createError(error.message, 400, ERROR_CODES.ATTACK);
+      err = createError(error.message, 400, errorCode.attack);
     }
     return next(err);
   }
