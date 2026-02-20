@@ -375,7 +375,8 @@ export const login = [
       accessTokenPayload,
       process.env.ACCESS_TOKEN_SECRET!,
       {
-        expiresIn: 60 * 15,
+        // expiresIn: 60 * 15, // 15 min
+        expiresIn: 60 * 0.5,
       },
     );
 
@@ -438,6 +439,16 @@ export const logout = async (
     return next(
       createError(
         "You are not an authenticated user.",
+        401,
+        errorCode.unauthenticated,
+      ),
+    );
+  }
+
+  if (isNaN(decoded.id)) {
+    return next(
+      createError(
+        "You are not authenticated user.",
         401,
         errorCode.unauthenticated,
       ),
