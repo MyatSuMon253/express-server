@@ -6,9 +6,17 @@ import { CustomRequest } from "../types";
 import { errorCode } from "../config/errorCode";
 
 export const auth = (req: CustomRequest, res: Response, next: NextFunction) => {
+  const platform = req.headers["x-platform"];
+  if (platform === "mobile") {
+    const accessTokenMobile = req.headers.authorization?.split(" ")[1];
+    console.log("Request from Mobile", accessTokenMobile);
+  } else {
+    console.log("Request from Web");
+  }
+
   const accessToken = req.cookies ? req.cookies.accessToken : null;
   const refreshToken = req.cookies ? req.cookies.refreshToken : null;
-  console.log(req);
+
   if (!refreshToken) {
     return next(
       createError(
