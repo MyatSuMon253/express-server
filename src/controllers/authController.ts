@@ -364,7 +364,9 @@ export const login = [
         }
       }
 
-      return next(createError("Password is incorrect", 401, errorCode.invalid));
+      return next(
+        createError(req.t("Password is wrong"), 401, errorCode.invalid),
+      );
     }
 
     // authorization token
@@ -376,7 +378,7 @@ export const login = [
       process.env.ACCESS_TOKEN_SECRET!,
       {
         // expiresIn: 60 * 15, // 15 min
-        expiresIn: 60 * 0.5,
+        expiresIn: 60 * 1, // 1 min for test
       },
     );
 

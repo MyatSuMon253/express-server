@@ -32,3 +32,4 @@
 23. npm i ejs
 24. npm i cookie-parser
 25. npm i @types/cookie-parser -D
+26. npm i i18next i18next-http-middleware i18next-fs-backend 
