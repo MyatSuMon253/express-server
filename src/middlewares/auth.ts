@@ -162,6 +162,4 @@ export const auth = (req: CustomRequest, res: Response, next: NextFunction) => {
       }
     }
   }
-
-  next();
 };

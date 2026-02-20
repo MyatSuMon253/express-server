@@ -1,4 +1,5 @@
 import { NextFunction, Response } from "express";
+
 import { CustomRequest } from "../../types";
 
 export const getAllUsers = (
@@ -6,7 +7,9 @@ export const getAllUsers = (
   res: Response,
   next: NextFunction,
 ) => {
-  const id = req.userId;
-
-  res.status(200).json({ message: req.t("welcome"), currentUserId: id });
+  const user = req.user;
+  console.log("requserklr", req.user);
+  res
+    .status(200)
+    .json({ message: req.t("welcome"), currentUserRole: user.role });
 };

@@ -1,4 +1,5 @@
 import { Response, NextFunction } from "express";
+
 import { CustomRequest } from "../types";
 
 export const check = (

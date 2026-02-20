@@ -377,8 +377,8 @@ export const login = [
       accessTokenPayload,
       process.env.ACCESS_TOKEN_SECRET!,
       {
-        // expiresIn: 60 * 15, // 15 min
-        expiresIn: 60 * 1, // 1 min for test
+        expiresIn: 60 * 15, // 15 min
+        // expiresIn: 60 * 1, // 1 min for test
       },
     );
 
