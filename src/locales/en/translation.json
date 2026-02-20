@@ -1,4 +1,5 @@
 {
   "welcome": "Welcome to our channel",
-  "Password is wrong": "Password is wrong"
+  "Password is wrong": "Password is wrong",
+  "changeLang": "Successfully changed language - {{ lang }}."
 }
