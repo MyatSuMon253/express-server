@@ -10,12 +10,8 @@ import middleware from "i18next-http-middleware";
 import path from "path";
 
 import { limiter } from "./middlewares/rate_limiter";
-import { auth } from "./middlewares/auth";
 import { CustomRequest } from "./types";
-import authRoutes from "./routes/v1/auth";
-import adminRoutes from "./routes/v1/admin/user";
-import profileRoutes from "./routes/v1/api/user";
-import { authorise } from "./middlewares/authorise";
+import routes from "./routes/v1";
 
 export const app = express();
 
@@ -69,10 +65,7 @@ i18next
   });
 
 app.use(middleware.handle(i18next));
-
-app.use("/api/v1", authRoutes);
-app.use("/api/v1/admin", auth, authorise(true, "ADMIN"), adminRoutes);
-app.use("/api/v1/", profileRoutes);
+app.use(routes);
 
 app.use((error: any, req: CustomRequest, res: Response, next: NextFunction) => {
   const status = error.status || 500;
