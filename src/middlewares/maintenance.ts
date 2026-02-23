@@ -3,20 +3,30 @@ import { getSettingStatus } from "../services/settingService";
 import { errorCode } from "../config/errorCode";
 import { createError } from "../utils/error";
 
+const whiteLists = ["127.0.0.1"];
+
 export const maintain = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const setting = await getSettingStatus("maintenance");
+  const ip: any = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
-  if (setting?.value === "true") {
-    return next(
-      createError(
-        "The server is currently under maintenance. Please try again later.",
-        503,
-        errorCode.maintenance,
-      ),
-    );
+  if (whiteLists.includes(ip)) {
+    console.log("allowed ip address: ", ip);
+    next();
+  } else {
+    console.log("allowed ip address: ", ip);
+    const setting = await getSettingStatus("maintenance");
+
+    if (setting?.value === "true") {
+      return next(
+        createError(
+          "The server is currently under maintenance. Please try again later.",
+          503,
+          errorCode.maintenance,
+        ),
+      );
+    }
   }
 };
