@@ -6,6 +6,6 @@ import { setMaintenance } from "../../../controllers/admin/systemController";
 const router = express.Router();
 
 router.get("/users", getAllUsers);
-router.post("maintenance", setMaintenance);
+router.post("/maintenance", setMaintenance);
 
 export default router;
