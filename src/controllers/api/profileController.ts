@@ -1,10 +1,12 @@
 import { NextFunction, Response } from "express";
+import { unlink } from "node:fs/promises";
+import path from "path";
 
 import { CustomRequest } from "../../types";
 import { query, validationResult } from "express-validator";
 import { createError } from "../../utils/error";
 import { errorCode } from "../../config/errorCode";
-import { getUserById } from "../../services/authService";
+import { getUserById, updateUser } from "../../services/authService";
 import { checkUserIfNotExist } from "../../utils/auth";
 import { authorise } from "../../utils/authorise";
 import { checkUploadFile } from "../../utils/check";
@@ -61,7 +63,31 @@ export const uploadProfile = async (
   checkUserIfNotExist(user);
 
   const image = req.file;
-  checkUploadFile(image)
+  checkUploadFile(image);
+
+  const fileName = image?.filename;
+  // const filePath = image?.path; // linux OS
+  // const filePath = image?.path.replace("\\", "/"); // window OS
+
+  if (user?.image) {
+    try {
+      const filePath = path.join(
+        __dirname,
+        "../../..",
+        "/uploads/images",
+        user?.image!,
+      );
+      await unlink(filePath!);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const userData = {
+    image: fileName,
+  };
+
+  await updateUser(user?.id!, userData);
 
   res.status(200).json({ message: "Profile picture uploaded successfully." });
 };
