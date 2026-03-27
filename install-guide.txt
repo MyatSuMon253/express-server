@@ -33,3 +33,4 @@
 24. npm i cookie-parser
 25. npm i @types/cookie-parser -D
 26. npm i i18next i18next-http-middleware i18next-fs-backend 
+27. npm i node-cron @types/node-cron
