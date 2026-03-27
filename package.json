@@ -42,6 +42,7 @@
     "@prisma/adapter-neon": "^7.4.0",
     "@prisma/adapter-pg": "^7.4.0",
     "@prisma/client": "^7.4.0",
+    "@types/node-cron": "^3.0.11",
     "bcrypt": "^6.0.0",
     "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
@@ -60,6 +61,7 @@
     "moment": "^2.30.1",
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
+    "node-cron": "^4.2.1",
     "pg": "^8.18.0"
   },
   "prisma": {

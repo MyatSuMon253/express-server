@@ -8,10 +8,15 @@ import i18next from "i18next";
 import Backend from "i18next-fs-backend";
 import middleware from "i18next-http-middleware";
 import path from "path";
+import cron from "node-cron";
 
 import { limiter } from "./middlewares/rate_limiter";
 import { CustomRequest } from "./types";
 import routes from "./routes/v1";
+import {
+  createOrUpdateSettingStatus,
+  getSettingStatus,
+} from "./services/settingService";
 
 export const app = express();
 
@@ -72,4 +77,14 @@ app.use((error: any, req: CustomRequest, res: Response, next: NextFunction) => {
   const message = error.message || "Internal Server Error";
   const errorCode = error.code || "INTERNAL_SERVER_ERROR";
   res.status(status).json({ message, errorCode });
+});
+
+cron.schedule("* * * * *", async () => {
+  console.log("running a task every minute for testing purpose");
+
+  const setting = await getSettingStatus("maintenance");
+  if (setting?.value === "true") {
+    await createOrUpdateSettingStatus("maintenance", "false");
+    console.log("Now maintenance mode is off");
+  }
 });
