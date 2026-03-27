@@ -1,4 +1,5 @@
 import multer, { FileFilterCallback } from "multer";
+import { Request, Response, NextFunction } from "express";
 
 const fileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -16,8 +17,28 @@ const fileStorage = multer.diskStorage({
   },
 });
 
+const fileFilter = (
+  req: Request,
+  file: Express.Multer.File,
+  cb: FileFilterCallback,
+) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
 const upload = multer({
   storage: fileStorage,
+  fileFilter,
+  limits: {
+    fileSize: 1024 * 1024 * 2, // max file size is 2MB
+  },
 });
 
 export default upload;

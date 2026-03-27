@@ -7,6 +7,7 @@ import { errorCode } from "../../config/errorCode";
 import { getUserById } from "../../services/authService";
 import { checkUserIfNotExist } from "../../utils/auth";
 import { authorise } from "../../utils/authorise";
+import { checkUploadFile } from "../../utils/check";
 
 export const changeLanguage = [
   query("lng", "Invalid language code.")
@@ -48,4 +49,19 @@ export const testPermissions = async (
   }
 
   res.status(200).json({ info });
+};
+
+export const uploadProfile = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  const userId = req.userId;
+  const user = await getUserById(userId!);
+  checkUserIfNotExist(user);
+
+  const image = req.file;
+  checkUploadFile(image)
+
+  res.status(200).json({ message: "Profile picture uploaded successfully." });
 };
