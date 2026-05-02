@@ -89,5 +89,25 @@ export const uploadProfile = async (
 
   await updateUser(user?.id!, userData);
 
-  res.status(200).json({ message: "Profile picture uploaded successfully." });
+  res.status(200).json({
+    message: "Profile picture uploaded successfully.",
+    image: `uploads/images/${fileName}`,
+  });
+};
+
+export const getMyPhoto = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  const file = path.join(
+    __dirname,
+    "../../..",
+    "/uploads/images/",
+    "profile.png",
+  );
+
+  res.sendFile(file, (err) => {
+    res.status(404).send("File not found");
+  });
 };

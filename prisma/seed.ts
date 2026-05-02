@@ -1,9 +1,8 @@
-import { PrismaClient, Prisma } from "../src/generated/prisma/client";
+import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import "dotenv/config";
 import * as bcrypt from "bcrypt";
 import { faker } from "@faker-js/faker";
-import { create } from "node:domain";
 
 const adapter = new PrismaPg({
   connectionString: process.env.DATABASE_URL,

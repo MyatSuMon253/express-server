@@ -1,7 +1,7 @@
 import express from "express";
-
 import {
   changeLanguage,
+  getMyPhoto,
   testPermissions,
   uploadProfile,
 } from "../../../controllers/api/profileController";
@@ -14,5 +14,7 @@ router.post("/change-language", changeLanguage);
 router.get("/test-permission", auth, testPermissions);
 
 router.patch("/profile/upload", auth, upload.single("avatar"), uploadProfile);
+
+router.get("/profile/my-photo", getMyPhoto);
 
 export default router;
