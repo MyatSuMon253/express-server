@@ -1,5 +1,5 @@
 import multer, { FileFilterCallback } from "multer";
-import { Request, Response, NextFunction } from "express";
+import { Request } from "express";
 
 const fileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -12,8 +12,10 @@ const fileStorage = multer.diskStorage({
     }
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + "-" + file.originalname);
+    const ext = file.mimetype.split("/")[1];
+    const uniqueSuffix =
+      Date.now() + "-" + Math.round(Math.random() * 1e9) + "." + ext;
+    cb(null, uniqueSuffix);
   },
 });
 
@@ -37,7 +39,7 @@ const upload = multer({
   storage: fileStorage,
   fileFilter,
   limits: {
-    fileSize: 1024 * 1024 * 2, // max file size is 2MB
+    fileSize: 1024 * 1024 * 10, // max file size is 2MB
   },
 });
 
