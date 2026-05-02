@@ -111,3 +111,20 @@ export const getMyPhoto = async (
     res.status(404).send("File not found");
   });
 };
+
+export const uploadMultiplePhotos = async (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction,
+) => {
+  const userId = req.userId;
+  const user = await getUserById(userId!);
+  checkUserIfNotExist(user);
+
+  const images = req.files;
+  console.log(images);
+
+  res.status(200).json({
+    message: "Multiple product photo uploaded successfully.",
+  });
+};

@@ -3,6 +3,7 @@ import {
   changeLanguage,
   getMyPhoto,
   testPermissions,
+  uploadMultiplePhotos,
   uploadProfile,
 } from "../../../controllers/api/profileController";
 import { auth } from "../../../middlewares/auth";
@@ -14,6 +15,7 @@ router.post("/change-language", changeLanguage);
 router.get("/test-permission", auth, testPermissions);
 
 router.patch("/profile/upload", auth, upload.single("avatar"), uploadProfile);
+router.patch("/profile/upload/multiple", auth, upload.array("avatar"), uploadMultiplePhotos);
 
 router.get("/profile/my-photo", getMyPhoto);
 
