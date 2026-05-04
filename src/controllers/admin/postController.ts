@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { body, validationResult } from "express-validator";
+import sanitizeHtml from "sanitize-html";
 
 import { checkUploadFile } from "../../utils/check";
 import { createError } from "../../utils/error";
@@ -38,7 +39,10 @@ async function safeUnlink(
 export const createPost = [
   body("title", "Title is required.").trim().notEmpty().escape(),
   body("content", "Content is required.").trim().notEmpty().escape(),
-  body("body", "Body is required.").trim().notEmpty().notEmpty(),
+  body("body", "Body is required.")
+    .trim()
+    .notEmpty()
+    .customSanitizer((value) => sanitizeHtml(value)).notEmpty(),
   body("category", "Category is required.").trim().notEmpty().escape(),
   body("type", "Type is required.").trim().notEmpty().escape(),
   body("tags", "Tag is invalid.")
