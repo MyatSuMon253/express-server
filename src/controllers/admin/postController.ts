@@ -6,8 +6,10 @@ import { checkUploadFile } from "../../utils/check";
 import { createError } from "../../utils/error";
 import ImageQueue from "../../jobs/queues/imageQueue";
 import { createOnePost, PostArgs } from "../../services/postService";
-import { unlink as fsUnlink } from "fs/promises";
+import { unlink as fsUnlink, unlink } from "fs/promises";
 import { errorCode } from "../../config/errorCode";
+import path from "path";
+import { getUserById } from "../../services/authService";
 
 interface CustomRequest extends Request {
   userId?: number;
@@ -36,13 +38,45 @@ async function safeUnlink(
   }
 }
 
+const removeFiles = async (
+  originalFile: string,
+  optimizedFile: string | null,
+) => {
+  try {
+    const originalFilePath = path.join(
+      __dirname,
+      "../../..",
+      "/uploads/images",
+      originalFile,
+    );
+
+    // await safeUnlink(originalFilePath);  // Use this For windows error - 'EPERM' or 'EBUSY'
+    await unlink(originalFilePath);
+
+    if (optimizedFile) {
+      const optimizedFilePath = path.join(
+        __dirname,
+        "../../..",
+        "/uploads/optimize",
+        optimizedFile,
+      );
+
+      // await safeUnlink(optimizedFilePath);  // Use this For windows error - 'EPERM' or 'EBUSY'
+      await unlink(optimizedFilePath);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const createPost = [
   body("title", "Title is required.").trim().notEmpty().escape(),
   body("content", "Content is required.").trim().notEmpty().escape(),
   body("body", "Body is required.")
     .trim()
     .notEmpty()
-    .customSanitizer((value) => sanitizeHtml(value)).notEmpty(),
+    .customSanitizer((value) => sanitizeHtml(value))
+    .notEmpty(),
   body("category", "Category is required.").trim().notEmpty().escape(),
   body("type", "Type is required.").trim().notEmpty().escape(),
   body("tags", "Tag is invalid.")
@@ -63,8 +97,23 @@ export const createPost = [
 
     const { title, content, body, category, type, tags } = req.body;
     // const userId = req.userId;
-    const user = req.user;
+    const userId = req.userId;
     checkUploadFile(req.file);
+
+    const user = await getUserById(userId!);
+    if (!user) {
+      if (req.file) {
+        await removeFiles(req.file.filename, null);
+      }
+
+      return next(
+        createError(
+          "This user has not registered.",
+          401,
+          errorCode.unauthenticated,
+        ),
+      );
+    }
 
     const splitFileName = req.file?.filename.split(".")[0];
 
