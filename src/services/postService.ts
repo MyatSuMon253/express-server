@@ -101,3 +101,9 @@ export const updateOnePost = async (postId: number, postData: PostArgs) => {
     data,
   });
 };
+
+export const deleteOnePost = async (id: number) => {
+  return prisma.post.delete({
+    where: { id },
+  });
+};

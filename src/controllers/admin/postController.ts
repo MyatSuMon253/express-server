@@ -2,11 +2,12 @@ import { Request, Response, NextFunction } from "express";
 import { body, validationResult } from "express-validator";
 import sanitizeHtml from "sanitize-html";
 
-import { checkUploadFile } from "../../utils/check";
+import { checkModelIfExist, checkUploadFile } from "../../utils/check";
 import { createError } from "../../utils/error";
 import ImageQueue from "../../jobs/queues/imageQueue";
 import {
   createOnePost,
+  deleteOnePost,
   getPostById,
   PostArgs,
   updateOnePost,
@@ -271,6 +272,42 @@ export const updatePost = [
     res.status(200).json({
       message: "Successfully updated the post.",
       postId: postUpdated.id,
+    });
+  },
+];
+
+export const deletePost = [
+  body("postId", "Post Id is required.").isInt({ gt: 0 }),
+  async (req: CustomRequest, res: Response, next: NextFunction) => {
+    const errors = validationResult(req).array({ onlyFirstError: true });
+    // If validation error occurs
+    if (errors.length > 0) {
+      return next(createError(errors[0].msg, 400, errorCode.invalid));
+    }
+
+    const { postId } = req.body;
+
+    // const userId = req.userId;
+    // const user = await getUserById(userId!);
+    // checkUserIfNotExist(user);
+    const user = req.user;
+
+    const post = await getPostById(+postId);
+    checkModelIfExist(post);
+
+    if (user!.id !== post!.authorId) {
+      return next(
+        createError("This action is not allowed.", 403, errorCode.unauthorised),
+      );
+    }
+
+    const postDeleted = await deleteOnePost(post!.id);
+    const optimizedFile = post!.image.split(".")[0] + ".webp";
+    await removeFiles(post!.image, optimizedFile);
+
+    res.status(200).json({
+      message: "Successfully deleted the post.",
+      postId: postDeleted.id,
     });
   },
 ];
