@@ -58,7 +58,7 @@ model Post {
   author     User      @relation(fields: [authorId], references: [id])
   category   Category  @relation(fields: [categoryId], references: [id])
   type       Type      @relation(fields: [typeId], references: [id])
-  PostTag    PostTag[]
+  tags       PostTag[]
 }
 
 model PostTag {

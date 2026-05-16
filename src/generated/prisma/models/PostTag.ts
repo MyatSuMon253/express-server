@@ -230,24 +230,24 @@ export type PostTagScalarWhereWithAggregatesInput = {
 
 export type PostTagCreateInput = {
   name: string
-  Post?: Prisma.PostCreateNestedManyWithoutPostTagInput
+  Post?: Prisma.PostCreateNestedManyWithoutTagsInput
 }
 
 export type PostTagUncheckedCreateInput = {
   id?: number
   name: string
-  Post?: Prisma.PostUncheckedCreateNestedManyWithoutPostTagInput
+  Post?: Prisma.PostUncheckedCreateNestedManyWithoutTagsInput
 }
 
 export type PostTagUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  Post?: Prisma.PostUpdateManyWithoutPostTagNestedInput
+  Post?: Prisma.PostUpdateManyWithoutTagsNestedInput
 }
 
 export type PostTagUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  Post?: Prisma.PostUncheckedUpdateManyWithoutPostTagNestedInput
+  Post?: Prisma.PostUncheckedUpdateManyWithoutTagsNestedInput
 }
 
 export type PostTagCreateManyInput = {
