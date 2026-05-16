@@ -97,3 +97,64 @@ export const getPostsByPagination = [
     });
   },
 ];
+
+// Cursor-based Pagination
+export const getInfinitePostsByPagination = [
+  query("cursor", "Cursor must be Post ID.").isInt({ gt: 0 }).optional(),
+  query("limit", "Limit number must be unsigned integer.")
+    .isInt({ gt: 2 })
+    .optional(),
+  async (req: CustomRequest, res: Response, next: NextFunction) => {
+    const errors = validationResult(req).array({ onlyFirstError: true });
+    // If validation error occurs
+    if (errors.length > 0) {
+      return next(createError(errors[0].msg, 400, errorCode.invalid));
+    }
+
+    const lastCursor = req.query.cursor;
+    const limit = req.query.limit || 5;
+
+    const userId = req.userId;
+    const user = await getUserById(userId!);
+    checkUserIfNotExist(user);
+
+    const options = {
+      take: +limit + 1,
+      skip: lastCursor ? 1 : 0,
+      cursor: lastCursor ? { id: +lastCursor } : undefined,
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        image: true,
+        updatedAt: true,
+        author: {
+          select: {
+            fullName: true,
+          },
+        },
+      },
+      orderBy: {
+        id: "desc",
+      },
+    };
+
+    const posts = await getPostsList(options);
+
+    const hasNextPage = posts.length > +limit;
+
+    if (hasNextPage) {
+      posts.pop();
+    }
+
+    const nextCursor = posts.length > 0 ? posts[posts.length - 1].id : null;
+
+    res.status(200).json({
+      message: "Get All infinite posts",
+      hasNextPage,
+      nextCursor,
+      prevCursor: lastCursor,
+      posts,
+    });
+  },
+];
