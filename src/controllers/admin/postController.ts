@@ -16,7 +16,6 @@ import { unlink as fsUnlink, unlink } from "fs/promises";
 import { errorCode } from "../../config/errorCode";
 import path from "path";
 import { getUserById } from "../../services/authService";
-import CacheQueue from "../../jobs/queues/cacheQueue";
 import cacheQueue from "../../jobs/queues/cacheQueue";
 
 interface CustomRequest extends Request {
@@ -104,23 +103,8 @@ export const createPost = [
     }
 
     const { title, content, body, category, type, tags } = req.body;
-    const userId = req.userId;
+    const user = req.user;
     checkUploadFile(req.file);
-
-    const user = await getUserById(userId!);
-    if (!user) {
-      if (req.file) {
-        await removeFiles(req.file.filename, null);
-      }
-
-      return next(
-        createError(
-          "This user has not registered.",
-          401,
-          errorCode.unauthenticated,
-        ),
-      );
-    }
 
     const splitFileName = req.file?.filename.split(".")[0];
 
@@ -199,23 +183,7 @@ export const updatePost = [
     }
 
     const { postId, title, content, body, category, type, tags } = req.body;
-
-    // const userId = req.userId;
     const user = req.user;
-    // const user = await getUserById(userId!);
-    // if (!user) {
-    //   if (req.file) {
-    //     await removeFiles(req.file.filename, null);
-    //   }
-
-    //   return next(
-    //     createError(
-    //       "This user has not registered.",
-    //       401,
-    //       errorCode.unauthenticated
-    //     )
-    //   );
-    // }
 
     const post = await getPostById(+postId); // "8" -> 8
     if (!post) {
