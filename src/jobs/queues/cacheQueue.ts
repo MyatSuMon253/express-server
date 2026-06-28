@@ -1,7 +1,7 @@
 import { Queue } from "bullmq";
 import { redis } from "../../config/redisClient";
 
-const CacheQueue = new Queue("cache-invalidation", {
+const cacheQueue = new Queue("cache-invalidation", {
   connection: redis,
   defaultJobOptions: {
     attempts: 3,
@@ -14,4 +14,4 @@ const CacheQueue = new Queue("cache-invalidation", {
   },
 });
 
-export default CacheQueue;
+export default cacheQueue;

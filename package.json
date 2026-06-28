@@ -4,7 +4,8 @@
     "build": "tsc -p .",
     "dev": "nodemon --exec tsx src/index.ts",
     "start": "node dist/index.js",
-    "work": "nodemon src/jobs/workers/imageWorker.ts"
+    "work": "nodemon src/jobs/workers/imageWorker.ts",
+    "cache": "nodemon src/jobs/workers/cacheWorker.ts"
   },
   "devDependencies": {
     "@faker-js/faker": "^10.3.0",
