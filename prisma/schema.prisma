@@ -80,7 +80,7 @@ model Product {
   typeId      Int
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
-  image       Image[]
+  images      Image[]
   category    Category           @relation(fields: [categoryId], references: [id])
   type        Type               @relation(fields: [typeId], references: [id])
   orders      ProductsOnOrders[]
